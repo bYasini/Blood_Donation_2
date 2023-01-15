@@ -19,5 +19,5 @@ trait HttpResponses {
         ], $code);
     }
 
-}
+} 
 
