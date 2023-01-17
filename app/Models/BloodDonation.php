@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class BloodDonation extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'id', 'fullName', 
+        'address', 'contact', 
+        'bloodType', 'status', 
+        'period', 'category',
+    ];
 }

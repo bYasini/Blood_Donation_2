@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreBloodDonationRequest;
+use App\Models\BloodDonation;
 use Illuminate\Http\Request;
 
 class bloodDonationController extends Controller
@@ -13,18 +15,18 @@ class bloodDonationController extends Controller
      */
     public function index()
     {
-        //
+        return BloodDonation::all();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+    // /**
+    //  * Show the form for creating a new resource.
+    //  *
+    //  * @return \Illuminate\Http\Response
+    //  */
+    // public function create()
+    // {
+    //     //
+    // }
 
     /**
      * Store a newly created resource in storage.
@@ -32,9 +34,21 @@ class bloodDonationController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreBloodDonationRequest $request)
     {
-        //
+        $request->validated($request->all());
+
+        $bloodDonation = BloodDonation::create([
+            'fullName' => $request->fullName,
+            'address' => $request->address,
+            'contact' => $request->contact,
+            'bloodType' => $request->bloodType,
+            'status' => $request->status,
+            'period' => $request->period,
+            'category' => $request->category,
+        ]);
+
+        return ($bloodDonation);
     }
 
     /**
@@ -43,21 +57,21 @@ class bloodDonationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(BloodDonation $bloodDonation)
     {
-        //
+        return ($bloodDonation);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
+    // /**
+    //  * Show the form for editing the specified resource.
+    //  *
+    //  * @param  int  $id
+    //  * @return \Illuminate\Http\Response
+    //  */
+    // public function edit($id)
+    // {
+    //     //
+    // }
 
     /**
      * Update the specified resource in storage.
@@ -66,9 +80,11 @@ class bloodDonationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, BloodDonation $bloodDonation)
     {
-        //
+        $bloodDonation->update($request->all());
+
+        return ($bloodDonation);
     }
 
     /**
@@ -77,8 +93,10 @@ class bloodDonationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(BloodDonation $bloodDonation)
     {
-        //
+        $bloodDonation->delete();
+
+        return response(null, 201);
     }
 }

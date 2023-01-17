@@ -14,7 +14,14 @@ return new class extends Migration
     public function up()
     {
         Schema::create('blood_donations', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id');
+            $table->string('fullName');
+            $table->string('address');
+            $table->string('contact');
+            $table->string('bloodType');
+            $table->string('status');
+            $table->string('period')->default('monthly');
+            $table->string('category');
             $table->timestamps();
         });
     }
