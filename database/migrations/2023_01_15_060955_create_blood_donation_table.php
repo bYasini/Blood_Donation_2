@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('blood_donation', function (Blueprint $table) {
+        Schema::create('blood_donation', function (Blueprint $table) {  
             $table->id();
             $table->timestamps();
         });
