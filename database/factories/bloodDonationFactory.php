@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\BloodDonation;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -18,7 +19,6 @@ class bloodDonationFactory extends Factory
     public function definition()
     {
         return [
-            'id' => User::all()->random()->id,
             'fullName' => $this->faker->unique()->userName(),
             'address' => $this->faker->address(),
             'contact' => $this->faker->phoneNumber(),

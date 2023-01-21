@@ -57,9 +57,15 @@ class bloodDonationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(BloodDonation $bloodDonation)
+    public function show(Request $request)
     {
-        return ($bloodDonation);
+
+        $bloodDonation = BloodDonation::where('id', $request->id)
+            ->orWhere('fullName', $request->fullName)
+            ->orWhere('category', $request->category)
+            ->get();
+            
+        return $bloodDonation;
     }
 
     // /**
@@ -97,6 +103,6 @@ class bloodDonationController extends Controller
     {
         $bloodDonation->delete();
 
-        return response(null, 201);
+        return response('The selected record was deleted.', 201);
     }
 }
