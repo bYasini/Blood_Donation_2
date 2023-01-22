@@ -13,8 +13,18 @@ class bloodDonationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $bloodDonation = BloodDonation::where('id', $request->id)
+        ->orWhere('fullName', $request->fullName)
+        ->orWhere('category', $request->category)
+        ->get();
+
+        if ($request->id || $request->fullName || $request->category) {
+            
+            return ($bloodDonation);
+        }
+
         return BloodDonation::all();
     }
 
@@ -57,12 +67,10 @@ class bloodDonationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request)
+    public function show($id)
     {
 
-        $bloodDonation = BloodDonation::where('id', $request->id)
-            ->orWhere('fullName', $request->fullName)
-            ->orWhere('category', $request->category)
+        $bloodDonation = BloodDonation::where('id', $id)
             ->get();
             
         return $bloodDonation;
