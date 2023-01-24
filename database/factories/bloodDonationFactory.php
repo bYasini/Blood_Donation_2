@@ -22,8 +22,8 @@ class bloodDonationFactory extends Factory
             'fullName' => $this->faker->unique()->userName(),
             'address' => $this->faker->address(),
             'contact' => $this->faker->phoneNumber(),
-            'bloodType' => $this->faker->name(),
-            'status' => $this->faker->firstNameFemale(),
+            'bloodType' => $this->faker->randomElement(['A*', 'A-', 'B*', 'B-', 'O*', 'O-']),
+            'status' => $this->faker->randomElement(['male', 'female']),
             'period' => $this->faker->randomElement(['monthly', 'quarterly']),
             'category' => $this->faker->randomElement(['giver', 'taker']),
         ];

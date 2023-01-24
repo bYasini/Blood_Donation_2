@@ -29,4 +29,5 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::group(['middleware' => ['auth:sanctum']], function() {
     Route::resource('/bloodDonation', bloodDonationController::class);
     Route::post('/logout', [AuthController::class, 'logout']);
+    Route::get('/bloodDonation', [bloodDonationController::class, 'index']);
 });

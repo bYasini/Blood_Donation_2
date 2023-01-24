@@ -15,16 +15,28 @@ class bloodDonationController extends Controller
      */
     public function index(Request $request)
     {
+
+        //Searching people based on their basic info(id, fullName & category):
         $bloodDonation = BloodDonation::where('id', $request->id)
         ->orWhere('fullName', $request->fullName)
         ->orWhere('category', $request->category)
         ->get();
 
-        if ($request->id || $request->fullName || $request->category) {
-            
-            return ($bloodDonation);
-        }
 
+        //Categorizing blood type based on needed or volunteer:
+        $categorBloodType = BloodDonation::where('bloodType', $request->bloodType)
+        ->where('category', $request->category)
+        ->get();
+
+        if ($request->category && $request->bloodType) {
+
+            return 'Number of shortlisted persons: ' . $categorBloodType->count();
+
+        }else if ($request->id || $request->fullName || $request->category) {
+
+            return $bloodDonation;
+        }
+        
         return BloodDonation::all();
     }
 
