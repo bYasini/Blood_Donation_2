@@ -1,0 +1,129 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Http\Requests\StoreBloodDonationRequest;
+use App\Models\BloodDonation;
+use Illuminate\Http\Request;
+
+class bloodDonationController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index(Request $request)
+    {
+
+        //Searching people based on their basic info(id, fullName & category):
+        $bloodDonation = BloodDonation::where('id', $request->id)
+        ->orWhere('fullName', $request->fullName)
+        ->orWhere('category', $request->category)
+        ->get();
+
+
+        //Categorizing blood type based on needed or volunteer:
+        $categorBloodType = BloodDonation::where('bloodType', $request->bloodType)
+        ->where('category', $request->category)
+        ->get();
+
+        if ($request->category && $request->bloodType) {
+
+            // return $categorBloodType;
+            return response()->json(['Count' => $categorBloodType->count()]);
+
+        }else if ($request->id || $request->fullName || $request->category) {
+
+            return response()->json($bloodDonation);
+        }
+        
+        return response()->json(BloodDonation::all());
+    }
+
+    // /**
+    //  * Show the form for creating a new resource.
+    //  *
+    //  * @return \Illuminate\Http\Response
+    //  */
+    // public function create()
+    // {
+    //     //
+    // }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(StoreBloodDonationRequest $request)
+    {
+        $request->validated($request->all());
+
+        $bloodDonation = BloodDonation::create([
+            'fullName' => $request->fullName,
+            'address' => $request->address,
+            'contact' => $request->contact,
+            'bloodType' => $request->bloodType,
+            'status' => $request->status,
+            'period' => $request->period,
+            'category' => $request->category,
+        ]);
+
+        return ($bloodDonation);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+
+        $bloodDonation = BloodDonation::where('id', $id)
+            ->get();
+            
+        return $bloodDonation;
+    }
+
+    // /**
+    //  * Show the form for editing the specified resource.
+    //  *
+    //  * @param  int  $id
+    //  * @return \Illuminate\Http\Response
+    //  */
+    // public function edit($id)
+    // {
+    //     //
+    // }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, BloodDonation $bloodDonation)
+    {
+        $bloodDonation->update($request->all());
+
+        return ($bloodDonation);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(BloodDonation $bloodDonation)
+    {
+        $bloodDonation->delete();
+
+        return response('The selected record was deleted.', 201);
+    }
+}
