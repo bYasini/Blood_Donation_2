@@ -30,14 +30,15 @@ class bloodDonationController extends Controller
 
         if ($request->category && $request->bloodType) {
 
-            return 'Number of shortlisted persons: ' . $categorBloodType->count();
+            // return $categorBloodType;
+            return response()->json(['Count' => $categorBloodType->count()]);
 
         }else if ($request->id || $request->fullName || $request->category) {
 
-            return $bloodDonation;
+            return response()->json($bloodDonation);
         }
         
-        return BloodDonation::all();
+        return response()->json(BloodDonation::all());
     }
 
     // /**
